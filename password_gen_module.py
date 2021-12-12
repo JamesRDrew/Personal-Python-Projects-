@@ -100,7 +100,28 @@ def set_special(special):
 
 # Create a function that accepts inputs for password parameters as arguments
 def create_password(length, uppercase, numbers, special):
-    none
+    random_source = string.ascii_letters + string.digits + string.punctuation
+    password = ''
+    # Add required specific characters
+    for u in range(uppercase):
+        password += random.choice(string.ascii_uppercase)
+
+    for n in range(numbers):
+        password += random.choice(string.digits)
+
+    for s in range(special):
+        password += random.choice(string.punctuation)
+
+    # Generate other characters
+    remaining = length - uppercase - numbers - special
+    for r in range(remaining):
+        password += random.choice(random_source)
+
+    # Make password a list and shuffle it
+    password_list = list(password)
+    random.SystemRandom().shuffle(password_list)
+    password = ''.join(password_list)
+    return password
 
 def main():
     length = 0
@@ -113,10 +134,8 @@ def main():
     numbers = set_numbers(numbers)
     special = set_special(special)
 
-    print(length)
-    print(uppercase)
-    print(numbers)
-    print(special)
+    password = create_password(length, uppercase, numbers, special)
+    print(f'Your password is {password}')
 
 if __name__ == '__main__':
     main()
